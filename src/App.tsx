@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Paper } from '@mui/material';
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Layout = styled(Box)`
+	height: 100vh;
+	width: 100vw;
+	background-color: #5c0c70;
+`;
+
+const Background = styled(Paper)`
+	padding: 1rem;
+`
+
+const App = () => {
+	return (
+		<Layout>
+			<header>
+				<div>
+					To Do
+				</div>
+				<div>
+					Done
+				</div>
+			</header>
+			<Background>
+				<div>
+					test
+				</div>
+			</Background>
+		</Layout>
+	);
 }
 
 export default App;
