@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Header } from './components/Header';
 import { AddTodoForm } from './components/AddTodoForm';
 import React, { useEffect, useState } from 'react';
-import { Todo as TodoType } from "./types/Todo";
+import { TodoType } from "./types/Todo";
 import { TodoList } from './components/TodoList';
 import axios from 'axios';
 
@@ -44,7 +44,7 @@ const App = () => {
 					'Cache-Control': 'no-store'
 				}
 			});
-			setTodos([...todos, { name, isCompleted: false, _id: todo.data.oId }]);
+			setTodos([...todos, { name, isCompleted: false, isPriority: false,_id: todo.data.oId }]);
 		} catch (err) {
 			alert("Could not create todo...");
 		}
@@ -61,18 +61,27 @@ const App = () => {
 	
 	}
 
-	// const createTodo = (name: string): TodoType => {
-	// 	const newTodo = {
-	// 		_id: uuidv4(),
-	// 		name: name,
-	// 		isCompleted: false
-	// 	}
-	// 	return newTodo;
-	// }
+	// const setIsEditing = async (todo: TodoType, updatedName: string) => {
+  //   if (editingTodo) {
+  //     const newTodo: TodoType = {
+  //       ...todo,
+  //       name: updatedName,
+  //     };
+  //     await updateTodoList(newTodo);
+  //     setEditingTodo(undefined);
+  //     return;
+  //   }
+  //   setEditingTodo(todo);
+  // };
 
-	const updateTodoList = () => {
-
-	}
+  // const updateTodoList = async (newTodo: TodoType) => {
+  //   const found = todos.filter((todo) => todo._id === newTodo._id)[0];
+  //   const updatedTodo = await updateTodo(newTodo._id, newTodo);
+  //   const index = todos.indexOf(found);
+  //   const newTodos = [...todos];
+  //   newTodos[index] = updatedTodo;
+  //   setTodos(newTodos);
+  // };
 
 	const updateTodoCheck = (id: string) => {
 		try {

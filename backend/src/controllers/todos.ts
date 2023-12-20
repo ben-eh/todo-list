@@ -25,7 +25,7 @@ export default class TodosController {
 		try {
 			const name = req.body.name;
 			// create todo in db
-			const insertResult = await Database.database().collection('todos').insertOne({ name, isCompleted: false });
+			const insertResult = await Database.database().collection('todos').insertOne({ name, isCompleted: false, isPriority: false });
 			const eventOId = insertResult.insertedId;
 
 			// send back event id

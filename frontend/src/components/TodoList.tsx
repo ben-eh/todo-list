@@ -1,8 +1,8 @@
-import { Checkbox, List, ListItem, Typography, Paper } from "@mui/material";
-import { Todo } from "../types/Todo";
+import { Box, Checkbox, List, ListItem, Typography, Paper } from "@mui/material";
+import { TodoType } from "../types/Todo";
+import { Todo as TodoComponent } from './Todo'
 import styled from 'styled-components';
-import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import { useEffect, useState } from "react";
 
 const Layout = styled(Paper)`
 	display: flex;
@@ -11,45 +11,60 @@ const Layout = styled(Paper)`
 	width: 70vw;
 `;
 
-const TrashIcon = styled(DeleteOutlineRoundedIcon)`
-	cursor: pointer;
-`;
+
+
 
 type Props = {
-	todos: Todo[];
+	todos: TodoType[];
 	onChecked: (id: string) => void;
 	deleteTodo: (id: string) => void;
 }
 
-export const TodoList = ({todos, onChecked, deleteTodo}: Props ) => {
+export const TodoList = ({ todos, onChecked, deleteTodo }: Props) => {
+	const [priorityTodos, setPriorityTodos] = useState<TodoType[]>([]);
+	const [normalTodos, setNormalTodos] = useState<TodoType[]>([]);
+	const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
+
+	useEffect(() => {
+		sortTodos(todos);
+	}, []);
+	
 	const todosExist = todos.length > 0;
+
+	
+	const sortTodos = (todos: TodoType[]) => {
+		todos.map((todo) => {
+			if (todo.isCompleted === true) {
+				setCompletedTodos([...completedTodos, todo]);
+			} else if (todo.isPriority === true) {
+				setPriorityTodos([...priorityTodos, todo]);
+			}
+		});
+	}
+	
 	return (
 		<Layout>
 			{todosExist ? (
-			<List>
-			{todos.map((item) => (
-				<ListItem key={item._id}>
-					<Checkbox
-						checked={item.isCompleted}
-						onChange={() => onChecked(item._id)}
-					/>
-					<Typography>
-						{item.name}
+				<Box>
+					<List>
+						{todos.map((todo) => (
+							<TodoComponent
+								key={todo._id}
+								todo={todo}
+								onChecked={onChecked}
+								deleteTodo={deleteTodo}
+							/>
+						))}
+					</List>
+				</Box>
+			)
+				: (
+					<Typography
+						variant="h4"
+					>
+						No items yet in list
 					</Typography>
-					<TrashIcon
-						onClick={() => deleteTodo(item._id)}
-					/>
-					<EditRoundedIcon />
-				</ListItem>
-			))}
-			</List>
-			) : (
-			<Typography
-				variant="h4"
-			>
-				No items yet in list
-			</Typography>
-			)}
+				)}
 		</Layout>
 
 	)
