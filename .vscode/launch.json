@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+			"type": "node",
+      "request": "launch",
+      "name": "Launch server.ts",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "program": "${workspaceFolder}/backend/server.ts",
+      "cwd": "${workspaceFolder}/backend",
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
+    },
+		{
+      "name": "Launch Chrome against localhost",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
+    }
+  ]
+}
