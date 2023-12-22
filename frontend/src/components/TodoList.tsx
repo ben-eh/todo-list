@@ -17,10 +17,11 @@ const Layout = styled(Paper)`
 type Props = {
 	todos: TodoType[];
 	onChecked: (id: string) => void;
+	changePriority: (id: string) => void;
 	deleteTodo: (id: string) => void;
 }
 
-export const TodoList = ({ todos, onChecked, deleteTodo }: Props) => {
+export const TodoList = ({ todos, onChecked, changePriority, deleteTodo }: Props) => {
 	const [priorityTodos, setPriorityTodos] = useState<TodoType[]>([]);
 	const [normalTodos, setNormalTodos] = useState<TodoType[]>([]);
 	const [completedTodos, setCompletedTodos] = useState<TodoType[]>([]);
@@ -52,6 +53,7 @@ export const TodoList = ({ todos, onChecked, deleteTodo }: Props) => {
 								key={todo._id}
 								todo={todo}
 								onChecked={onChecked}
+								changePriority={changePriority}
 								deleteTodo={deleteTodo}
 							/>
 						))}

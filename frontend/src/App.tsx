@@ -68,6 +68,35 @@ const App = () => {
 			const index = todos.indexOf(todo);
 			newTodos[index] = todo;
 			setTodos(newTodos);
+			backendUpdateTodo (id, todo);
+		} catch (err) {
+			alert('Could not update todo');
+		}
+	}
+	
+	const updateTodoCheck = async (id: string) => {
+		try {
+			const todo = todos.filter((todo) => todo._id === id)[0];
+			todo.isCompleted = !todo.isCompleted;
+			const newTodos = [...todos];
+			const index = todos.indexOf(todo);
+			newTodos[index] = todo;
+			setTodos(newTodos);
+			backendUpdateTodo (id, todo);
+		} catch (err) {
+			alert('Could not update todo');
+		}
+	}
+	
+	const backendUpdateTodo = async (id: string, todo: TodoType) => {
+		try {
+			const updatedTodo = todos.filter((todo) => todo._id === id)[0];
+			const todoID = await axios.patch(`${BASE_URL}/api/todos/${id}`, { updatedTodo }, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-store'
+				}
+			});
 		} catch (err) {
 			alert('Could not update todo');
 		}
@@ -95,30 +124,6 @@ const App = () => {
   //   setTodos(newTodos);
   // };
 
-	const updateTodoCheck = async (id: string) => {
-		try {
-			const todo = todos.filter((todo) => todo._id === id)[0];
-			todo.isCompleted = !todo.isCompleted;
-			const newTodos = [...todos];
-			const index = todos.indexOf(todo);
-			newTodos[index] = todo;
-			setTodos(newTodos);
-			const updatedTodo = todos.filter((todo) => todo._id === id)[0];
-			const todoID = await axios.patch(`${BASE_URL}/api/todos/${id}`, { updatedTodo }, {
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-store'
-				}
-			});
-		} catch (err) {
-			alert('Could not update todo');
-		}
-	}
-
-	const test = () => {
-		console.log(todos);
-	}
-
 	return (
 		<MainPage>
 			<Header />
@@ -126,6 +131,7 @@ const App = () => {
 			<TodoList
 				todos={todos}
 				onChecked={updateTodoCheck}
+				changePriority={updateTodoPriority}
 				deleteTodo={deleteTodo}
 			/>
 		</MainPage>

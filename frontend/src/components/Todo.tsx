@@ -1,7 +1,13 @@
 import { ListItem, Checkbox, Typography } from "@mui/material";
 import styled from 'styled-components';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import { TodoType } from "../types/Todo";
+
+const PrioritizeIcon = styled(MilitaryTechRoundedIcon)`
+	cursor: pointer;
+`;
+
 
 const TrashIcon = styled(DeleteOutlineRoundedIcon)`
 	cursor: pointer;
@@ -10,10 +16,11 @@ const TrashIcon = styled(DeleteOutlineRoundedIcon)`
 type Props = {
 	todo: TodoType;
 	onChecked: (id: string) => void;
+	changePriority: (id: string) => void;
 	deleteTodo: (id: string) => void;
 }
 
-export const Todo = ({ todo, onChecked, deleteTodo }: Props) => {
+export const Todo = ({ todo, onChecked, changePriority, deleteTodo }: Props) => {
 	return (
 		<ListItem>
 			<Checkbox
@@ -23,6 +30,9 @@ export const Todo = ({ todo, onChecked, deleteTodo }: Props) => {
 			<Typography>
 				{todo.name}
 			</Typography>
+			<PrioritizeIcon
+				onClick={() => changePriority(todo._id)}
+			/>
 			<TrashIcon
 				onClick={() => deleteTodo(todo._id)}
 			/>
