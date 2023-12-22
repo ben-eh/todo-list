@@ -13,13 +13,17 @@ export default class TodosController {
 		}
 	}
 
-	// createTodo = async (req: Request, res: Response, next: any) => {
-	// 	try {
-	// 		const { name } = req.body;
-	// 		const insertResult = await Todo.create({ name });
-	// 		res.json(insertResult);
-	// 	}
-	// }
+	updateTodo = async (req: Request, res: Response, next: any) => {
+		try {
+			const todo = req.body.updatedTodo;
+			const { _id, ...updateFields } = todo;
+			const oId = new ObjectId(_id);
+			const updateResult = await Database.database().collection('todos').updateOne({ _id: oId }, { $set: updateFields });
+			res.json(updateResult);
+		} catch (error) {
+			next(error);
+		}
+	}
 
 	createTodo = async (req: Request, res: Response, next: any) => {
 		try {

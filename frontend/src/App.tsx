@@ -58,7 +58,19 @@ const App = () => {
 		} catch (err) {
 			alert('Could not delete todo');
 		}
-	
+	}
+
+	const updateTodoPriority = async (id: string) => {
+		try {
+			const todo = todos.filter((todo) => todo._id === id)[0];
+			todo.isPriority = !todo.isPriority;
+			const newTodos = [...todos];
+			const index = todos.indexOf(todo);
+			newTodos[index] = todo;
+			setTodos(newTodos);
+		} catch (err) {
+			alert('Could not update todo');
+		}
 	}
 
 	// const setIsEditing = async (todo: TodoType, updatedName: string) => {
@@ -83,7 +95,7 @@ const App = () => {
   //   setTodos(newTodos);
   // };
 
-	const updateTodoCheck = (id: string) => {
+	const updateTodoCheck = async (id: string) => {
 		try {
 			const todo = todos.filter((todo) => todo._id === id)[0];
 			todo.isCompleted = !todo.isCompleted;
@@ -91,9 +103,20 @@ const App = () => {
 			const index = todos.indexOf(todo);
 			newTodos[index] = todo;
 			setTodos(newTodos);
+			const updatedTodo = todos.filter((todo) => todo._id === id)[0];
+			const todoID = await axios.patch(`${BASE_URL}/api/todos/${id}`, { updatedTodo }, {
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-store'
+				}
+			});
 		} catch (err) {
 			alert('Could not update todo');
 		}
+	}
+
+	const test = () => {
+		console.log(todos);
 	}
 
 	return (

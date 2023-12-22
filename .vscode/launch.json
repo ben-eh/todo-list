@@ -16,11 +16,21 @@
         "!**/node_modules/**"
       ]
     },
+		// {
+    //   "name": "Launch Chrome against localhost",
+    //   "type": "chrome",
+    //   "request": "launch",
+    //   "url": "http://localhost:3000",
+    //   "webRoot": "${workspaceFolder}/frontend/src",
+    //   "sourceMapPathOverrides": {
+    //     "webpack:///src/*": "${webRoot}/*"
+    //   }
+    // }
 		{
-      "name": "Launch Chrome against localhost",
+      "name": "Attach to Chrome",
       "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000",
+      "request": "attach",
+      "port": 9222,
       "webRoot": "${workspaceFolder}/frontend/src",
       "sourceMapPathOverrides": {
         "webpack:///src/*": "${webRoot}/*"
