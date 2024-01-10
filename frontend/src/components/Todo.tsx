@@ -30,9 +30,11 @@ export const Todo = ({ todo, onChecked, changePriority, deleteTodo }: Props) => 
 			<Typography>
 				{todo.name}
 			</Typography>
-			<PrioritizeIcon
-				onClick={() => changePriority(todo._id)}
-			/>
+			{!todo.isCompleted && (
+				<PrioritizeIcon
+					onClick={() => changePriority(todo._id)}
+				/>
+			)}
 			<TrashIcon
 				onClick={() => deleteTodo(todo._id)}
 			/>

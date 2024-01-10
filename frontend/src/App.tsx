@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { TodoType } from "./types/Todo";
 import { TodoList } from './components/TodoList';
 import axios from 'axios';
+import { SortedTodos } from './types/SortedTodos';
 
 const MainPage = styled(Box)`
 	box-sizing: border-box;
@@ -22,10 +23,19 @@ const MainPage = styled(Box)`
 const App = () => {
 	const BASE_URL = 'http://localhost:3001';
 	const [todos, setTodos] = useState<TodoType[]>([]);
+	const [sortedTodos, setSortedTodos] = useState<SortedTodos>({} as SortedTodos);
 
 	useEffect(() => {
 		fetchTodos();
 	}, []);
+
+	useEffect(() => {
+		setSortedTodos({
+			priorityTodos: todos.filter((todo) => todo.isPriority === true && !todo.isCompleted),
+			normalTodos: todos.filter((todo) => todo.isPriority === false && !todo.isCompleted),
+			completedTodos: todos.filter((todo) => todo.isCompleted)
+		});
+	}, [todos]);
 	
 	const fetchTodos = async () => {
 		try {
@@ -102,6 +112,14 @@ const App = () => {
 		}
 	}
 
+	const sortTodos = () => {
+
+		const completedTodos = todos.filter((todo) => todo.isCompleted === true);
+		const priorityTodos = todos.filter((todo) => todo.isPriority === true && todo.isCompleted === false);
+		const normalTodos = todos.filter((todo) => todo.isPriority === false && todo.isCompleted === false);
+		return [...priorityTodos, ...normalTodos, ...completedTodos];
+	}
+
 	// const setIsEditing = async (todo: TodoType, updatedName: string) => {
   //   if (editingTodo) {
   //     const newTodo: TodoType = {
@@ -130,6 +148,7 @@ const App = () => {
 			<AddTodoForm addItem={addItem} />
 			<TodoList
 				todos={todos}
+				sortedTodos={sortedTodos}
 				onChecked={updateTodoCheck}
 				changePriority={updateTodoPriority}
 				deleteTodo={deleteTodo}
