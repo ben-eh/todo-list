@@ -21,9 +21,12 @@ const BoxMain = styled(Box)`
 `;
 
 const UndoneBox = styled(Box)`
+	background: white;
+	/* width: 100%; */
 `
-	
+
 const CompletedBox = styled(Box)`
+	background: white;
 `
 
 const Box1 = styled(Box)`
@@ -36,68 +39,28 @@ const Box2 = styled(Box)`
 
 type Props = {
 	todos: TodoType[];
-	sortedTodos: SortedTodos;
+	header: string;
 	onChecked: (id: string) => void;
 	changePriority: (id: string) => void;
 	deleteTodo: (id: string) => void;
 }
 
-export const TodoList = ({ todos, onChecked, sortedTodos, changePriority, deleteTodo }: Props) => {
-	const priorityTodos = sortedTodos.priorityTodos;
-	const completedTodos = sortedTodos.completedTodos;
-	const normalTodos = sortedTodos.normalTodos;
-
-	const todosExist = todos.length > 0;
-
-
+export const TodoList = ({ todos, header, onChecked, changePriority, deleteTodo }: Props) => {
+	if (!todos.length) return null;
 	return (
-		<Layout>
-				<BoxMain>
-					<UndoneBox>
-						<Box1>
-							<h3>Priorities</h3>
-							<List>
-								{priorityTodos && priorityTodos.map((todo) => (
-									<TodoComponent
-										todo={todo}
-										key={todo._id}
-										onChecked={onChecked}
-										changePriority={changePriority}
-										deleteTodo={deleteTodo}
-									/>
-								))}
-							</List>
-						</Box1>
-						<Box2>
-							<h3>Todos</h3>
-							<List>
-								{normalTodos && normalTodos.map((todo) => (
-									<TodoComponent
-										todo={todo}
-										key={todo._id}
-										onChecked={onChecked}
-										changePriority={changePriority}
-										deleteTodo={deleteTodo}
-									/>
-								))}
-							</List>
-						</Box2>
-					</UndoneBox>
-					<CompletedBox>
-						<h3>completed</h3>
-						<List>
-								{completedTodos && completedTodos.map((todo) => (
-									<TodoComponent
-										todo={todo}
-										key={todo._id}
-										onChecked={onChecked}
-										changePriority={changePriority}
-										deleteTodo={deleteTodo}
-									/>
-								))}
-							</List>
-					</CompletedBox>
-				</BoxMain>
-		</Layout>
+		<Box1>
+			<h3>{header}</h3>
+			<List>
+				{todos.map((todo) => (
+					<TodoComponent
+						todo={todo}
+						key={todo._id}
+						onChecked={onChecked}
+						changePriority={changePriority}
+						deleteTodo={deleteTodo}
+					/>
+				))}
+			</List>
+		</Box1>
 	)
 }

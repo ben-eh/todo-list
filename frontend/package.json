@@ -15,7 +15,7 @@
     "web-vitals": "^3.5.0"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start --host 0.0.0.0"
   },
   "browserslist": {
     "production": [

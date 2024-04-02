@@ -7,6 +7,7 @@ import { TodoType } from "./types/Todo";
 import { TodoList } from './components/TodoList';
 import axios from 'axios';
 import { SortedTodos } from './types/SortedTodos';
+import { getBaseURL } from './getBaseURL'
 
 const MainPage = styled(Box)`
 	box-sizing: border-box;
@@ -20,8 +21,32 @@ const MainPage = styled(Box)`
 	align-items: center;
 `;
 
+const Layout = styled(Paper)`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 500px;
+	flex-wrap: wrap;
+`
+
+const LeftBox = styled(Box)`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	/* max-width: 50%; */
+`
+
+const RightBox = styled(Box)`
+	display: flex;
+	flex-direction: column;
+	/* max-width: 50%; */
+`
+
+const BASE_URL = getBaseURL();
+
 const App = () => {
-	const BASE_URL = 'http://localhost:3001';
+	// const BASE_URL = 'http://localhost:3001';
 	const [todos, setTodos] = useState<TodoType[]>([]);
 	const [sortedTodos, setSortedTodos] = useState<SortedTodos>({} as SortedTodos);
 
@@ -36,7 +61,7 @@ const App = () => {
 			completedTodos: todos.filter((todo) => todo.isCompleted)
 		});
 	}, [todos]);
-	
+
 	const fetchTodos = async () => {
 		try {
 			const response = await axios.get(`${BASE_URL}/api/todos`);
@@ -54,7 +79,7 @@ const App = () => {
 					'Cache-Control': 'no-store'
 				}
 			});
-			setTodos([...todos, { name, isCompleted: false, isPriority: false,_id: todo.data.oId }]);
+			setTodos([...todos, { name, isCompleted: false, isPriority: false, _id: todo.data.oId }]);
 		} catch (err) {
 			alert("Could not create todo...");
 		}
@@ -78,12 +103,12 @@ const App = () => {
 			const index = todos.indexOf(todo);
 			newTodos[index] = todo;
 			setTodos(newTodos);
-			backendUpdateTodo (id, todo);
+			backendUpdateTodo(id, todo);
 		} catch (err) {
 			alert('Could not update todo');
 		}
 	}
-	
+
 	const updateTodoCheck = async (id: string) => {
 		try {
 			const todo = todos.filter((todo) => todo._id === id)[0];
@@ -92,12 +117,12 @@ const App = () => {
 			const index = todos.indexOf(todo);
 			newTodos[index] = todo;
 			setTodos(newTodos);
-			backendUpdateTodo (id, todo);
+			backendUpdateTodo(id, todo);
 		} catch (err) {
 			alert('Could not update todo');
 		}
 	}
-	
+
 	const backendUpdateTodo = async (id: string, todo: TodoType) => {
 		try {
 			const updatedTodo = todos.filter((todo) => todo._id === id)[0];
@@ -112,49 +137,61 @@ const App = () => {
 		}
 	}
 
-	const sortTodos = () => {
-
-		const completedTodos = todos.filter((todo) => todo.isCompleted === true);
-		const priorityTodos = todos.filter((todo) => todo.isPriority === true && todo.isCompleted === false);
-		const normalTodos = todos.filter((todo) => todo.isPriority === false && todo.isCompleted === false);
-		return [...priorityTodos, ...normalTodos, ...completedTodos];
-	}
-
 	// const setIsEditing = async (todo: TodoType, updatedName: string) => {
-  //   if (editingTodo) {
-  //     const newTodo: TodoType = {
-  //       ...todo,
-  //       name: updatedName,
-  //     };
-  //     await updateTodoList(newTodo);
-  //     setEditingTodo(undefined);
-  //     return;
-  //   }
-  //   setEditingTodo(todo);
-  // };
+	//   if (editingTodo) {
+	//     const newTodo: TodoType = {
+	//       ...todo,
+	//       name: updatedName,
+	//     };
+	//     await updateTodoList(newTodo);
+	//     setEditingTodo(undefined);
+	//     return;
+	//   }
+	//   setEditingTodo(todo);
+	// };
 
-  // const updateTodoList = async (newTodo: TodoType) => {
-  //   const found = todos.filter((todo) => todo._id === newTodo._id)[0];
-  //   const updatedTodo = await updateTodo(newTodo._id, newTodo);
-  //   const index = todos.indexOf(found);
-  //   const newTodos = [...todos];
-  //   newTodos[index] = updatedTodo;
-  //   setTodos(newTodos);
-  // };
+	// const updateTodoList = async (newTodo: TodoType) => {
+	//   const found = todos.filter((todo) => todo._id === newTodo._id)[0];
+	//   const updatedTodo = await updateTodo(newTodo._id, newTodo);
+	//   const index = todos.indexOf(found);
+	//   const newTodos = [...todos];
+	//   newTodos[index] = updatedTodo;
+	//   setTodos(newTodos);
+	// };
 
 	return (
 		<MainPage>
 			<Header />
 			<AddTodoForm addItem={addItem} />
-			<TodoList
-				todos={todos}
-				sortedTodos={sortedTodos}
-				onChecked={updateTodoCheck}
-				changePriority={updateTodoPriority}
-				deleteTodo={deleteTodo}
-			/>
+			<Layout>
+				<LeftBox>
+					<TodoList
+						header={'Priorities'}
+						todos={todos.filter((todo) => todo.isPriority === true && todo.isCompleted === false)}
+						onChecked={updateTodoCheck}
+						changePriority={updateTodoPriority}
+						deleteTodo={deleteTodo}
+					/>
+					<TodoList
+						header={'Todos'}
+						todos={todos.filter((todo) => todo.isPriority === false && todo.isCompleted === false)}
+						onChecked={updateTodoCheck}
+						changePriority={updateTodoPriority}
+						deleteTodo={deleteTodo}
+					/>
+				</LeftBox>
+				<RightBox>
+					<TodoList
+						header={'Completed'}
+						todos={todos.filter((todo) => todo.isCompleted === true)}
+						onChecked={updateTodoCheck}
+						changePriority={updateTodoPriority}
+						deleteTodo={deleteTodo}
+					/>
+				</RightBox>
+			</Layout>
 		</MainPage>
-	);
+	)
 }
 
 export default App;
