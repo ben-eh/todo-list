@@ -1,4 +1,4 @@
-import { Paper, Box, Button, TextField, styled } from "@mui/material"
+import { Paper, Box, Button, TextField, styled, Grid } from "@mui/material"
 import React, { useState } from "react"
 
 const Container = styled(Paper)`
@@ -32,7 +32,11 @@ export const AddTodoForm = ( { addItem }: Props ) => {
 	};
 	
 	return(
-		<Container>
+		<Grid
+		item
+		style={{ backgroundColor: 'orange' }}
+		xs={12}
+		>
 			<InputBox>
 				<Input
 					label="Add task"
@@ -47,6 +51,6 @@ export const AddTodoForm = ( { addItem }: Props ) => {
 					add
 				</Button>
 			</InputBox>
-		</Container>
+		</Grid>
 	)
 }

@@ -1,4 +1,4 @@
-import { Box, Paper, List, ListItem } from '@mui/material';
+import { Box, Paper, List, ListItem, Grid } from '@mui/material';
 import styled from 'styled-components';
 import { Header } from './components/Header';
 import { AddTodoForm } from './components/AddTodoForm';
@@ -8,40 +8,6 @@ import { TodoList } from './components/TodoList';
 import axios from 'axios';
 import { SortedTodos } from './types/SortedTodos';
 import { getBaseURL } from './getBaseURL'
-
-const MainPage = styled(Box)`
-	box-sizing: border-box;
-	padding: 2rem;
-	height: 100vh;
-	width: 100vw;
-	background-color: #583461;
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	align-items: center;
-`;
-
-const Layout = styled(Paper)`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 500px;
-	flex-wrap: wrap;
-`
-
-const LeftBox = styled(Box)`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	/* max-width: 50%; */
-`
-
-const RightBox = styled(Box)`
-	display: flex;
-	flex-direction: column;
-	/* max-width: 50%; */
-`
 
 const BASE_URL = getBaseURL();
 
@@ -160,37 +126,120 @@ const App = () => {
 	// };
 
 	return (
-		<MainPage>
-			<Header />
-			<AddTodoForm addItem={addItem} />
-			<Layout>
-				<LeftBox>
-					<TodoList
-						header={'Priorities'}
-						todos={todos.filter((todo) => todo.isPriority === true && todo.isCompleted === false)}
-						onChecked={updateTodoCheck}
-						changePriority={updateTodoPriority}
-						deleteTodo={deleteTodo}
-					/>
-					<TodoList
-						header={'Todos'}
-						todos={todos.filter((todo) => todo.isPriority === false && todo.isCompleted === false)}
-						onChecked={updateTodoCheck}
-						changePriority={updateTodoPriority}
-						deleteTodo={deleteTodo}
-					/>
-				</LeftBox>
-				<RightBox>
-					<TodoList
-						header={'Completed'}
-						todos={todos.filter((todo) => todo.isCompleted === true)}
-						onChecked={updateTodoCheck}
-						changePriority={updateTodoPriority}
-						deleteTodo={deleteTodo}
-					/>
-				</RightBox>
-			</Layout>
-		</MainPage>
+		<Grid
+			container
+			direction="column"
+			style={{ backgroundColor: 'blue', minHeight: '100vh' }}
+		>
+			{/* this would be the navbar */}
+			<Grid
+				container
+				justifyContent="center"
+				style={{ backgroundColor: 'orange' }}
+			>
+				<Grid
+					item
+					xs={4}
+					style={{ backgroundColor: 'brown' }}
+				>
+					<div></div>
+				</Grid>
+				<Grid
+					item
+					xs={4}
+					style={{ backgroundColor: 'purple' }}
+				>
+					<div>TODO APP</div>
+				</Grid>
+				<Grid
+					item
+					xs={4}
+					style={{ backgroundColor: 'green' }}
+				>
+					<div>testing</div>
+				</Grid>
+			</Grid>
+			{/* add item - not full size but needs to be on its own */}
+			<Grid
+				container
+				justifyContent="center"
+				style={{ backgroundColor: 'pink' }}
+			>
+				<Grid
+					item
+					xs={12}
+					sm={6}
+					lg={4}
+					xl={3}
+					style={{ backgroundColor: 'beige' }}
+				>
+					<AddTodoForm addItem={addItem} />
+				</Grid>
+			</Grid>
+			{/* container for all todos */}
+			<Grid
+				container
+				style={{ backgroundColor: 'green' }}
+				justifyContent="center"
+			>
+				{/* priorities and normal todos TOGETHER- not full size except mobile */}
+				<Grid
+					container
+					item
+					direction="column"
+					// alignItems="center"
+					xs={12}
+					sm={5}
+					md={6}
+					lg={4}
+					style={{ backgroundColor: 'cyan' }}
+				>
+					<Grid
+					item
+					>
+						<TodoList
+							header={'Priorities'}
+							todos={todos.filter((todo) => todo.isPriority === true && todo.isCompleted === false)}
+							onChecked={updateTodoCheck}
+							changePriority={updateTodoPriority}
+							deleteTodo={deleteTodo}
+						/>
+					</Grid>
+					<Grid item>
+						<TodoList
+							header={'Todos'}
+							todos={todos.filter((todo) => todo.isPriority === false && todo.isCompleted === false)}
+							onChecked={updateTodoCheck}
+							changePriority={updateTodoPriority}
+							deleteTodo={deleteTodo}
+						/>
+					</Grid>
+				</Grid>
+				<Grid
+					container
+					item
+					direction="column"
+					// alignItems="center"
+					xs={12}
+					sm={5}
+					md={6}
+					lg={4}
+					style={{ backgroundColor: 'brown' }}
+				>
+					<Grid
+						item
+					>
+						<TodoList
+							header={'Completed'}
+							todos={todos.filter((todo) => todo.isCompleted === true)}
+							onChecked={updateTodoCheck}
+							changePriority={updateTodoPriority}
+							deleteTodo={deleteTodo}
+						/>
+					</Grid>
+				</Grid>
+			</Grid>
+		</Grid>
 	)
 }
 

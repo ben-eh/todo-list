@@ -30,7 +30,7 @@ const CompletedBox = styled(Box)`
 `
 
 const Box1 = styled(Box)`
-	background: pink;
+	/* background: pink; */
 `
 
 const Box2 = styled(Box)`
