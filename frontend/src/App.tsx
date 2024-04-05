@@ -129,32 +129,32 @@ const App = () => {
 		<Grid
 			container
 			direction="column"
-			style={{ backgroundColor: 'blue', minHeight: '100vh' }}
+			style={{ backgroundColor: 'purple', minHeight: '100vh' }}
 		>
 			{/* this would be the navbar */}
 			<Grid
 				container
 				justifyContent="center"
-				style={{ backgroundColor: 'orange' }}
+				style={{  }}
 			>
 				<Grid
 					item
 					xs={4}
-					style={{ backgroundColor: 'brown' }}
+					style={{  }}
 				>
 					<div></div>
 				</Grid>
 				<Grid
 					item
 					xs={4}
-					style={{ backgroundColor: 'purple' }}
+					style={{  }}
 				>
 					<div>TODO APP</div>
 				</Grid>
 				<Grid
 					item
 					xs={4}
-					style={{ backgroundColor: 'green' }}
+					style={{  }}
 				>
 					<div>testing</div>
 				</Grid>
@@ -163,7 +163,7 @@ const App = () => {
 			<Grid
 				container
 				justifyContent="center"
-				style={{ backgroundColor: 'pink' }}
+				style={{  }}
 			>
 				<Grid
 					item
@@ -171,7 +171,7 @@ const App = () => {
 					sm={6}
 					lg={4}
 					xl={3}
-					style={{ backgroundColor: 'beige' }}
+					style={{  }}
 				>
 					<AddTodoForm addItem={addItem} />
 				</Grid>
@@ -179,7 +179,6 @@ const App = () => {
 			{/* container for all todos */}
 			<Grid
 				container
-				style={{ backgroundColor: 'green' }}
 				justifyContent="center"
 			>
 				{/* priorities and normal todos TOGETHER- not full size except mobile */}
@@ -191,8 +190,8 @@ const App = () => {
 					xs={12}
 					sm={5}
 					md={6}
-					lg={4}
-					style={{ backgroundColor: 'cyan' }}
+					lg={3}
+					style={{ padding: '20px' }}
 				>
 					<Grid
 					item
@@ -223,8 +222,8 @@ const App = () => {
 					xs={12}
 					sm={5}
 					md={6}
-					lg={4}
-					style={{ backgroundColor: 'brown' }}
+					lg={3}
+					style={{ padding: '20px' }}
 				>
 					<Grid
 						item

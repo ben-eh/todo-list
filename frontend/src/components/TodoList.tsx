@@ -48,9 +48,14 @@ type Props = {
 export const TodoList = ({ todos, header, onChecked, changePriority, deleteTodo }: Props) => {
 	if (!todos.length) return null;
 	return (
-		<Box1>
-			<h3>{header}</h3>
-			<List>
+		<Paper
+		elevation={5}
+		style={{ paddingTop: '0px' }}
+		>
+			<h3 style={{ textAlign: 'center', paddingTop: '5px' }}>{header}</h3>
+			<List
+			dense={true}
+			>
 				{todos.map((todo) => (
 					<TodoComponent
 						todo={todo}
@@ -61,6 +66,6 @@ export const TodoList = ({ todos, header, onChecked, changePriority, deleteTodo 
 					/>
 				))}
 			</List>
-		</Box1>
+		</Paper>
 	)
 }

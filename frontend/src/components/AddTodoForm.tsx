@@ -8,9 +8,10 @@ const Container = styled(Paper)`
 	padding: 1rem;
 `
 
-const InputBox = styled(Box)`
+const InputBox = styled(Paper)`
 	display: flex;
 	flex-grow: 1;
+	padding: 10px;
 `
 
 const Input = styled(TextField)`
@@ -34,19 +35,22 @@ export const AddTodoForm = ( { addItem }: Props ) => {
 	return(
 		<Grid
 		item
-		style={{ backgroundColor: 'orange' }}
 		xs={12}
 		>
-			<InputBox>
+			<InputBox
+			elevation={5}
+			>
 				<Input
 					label="Add task"
 					value={text}
 					onChange={(event) => setText(event.target.value)}
+					// style={{ marginLeft:  '10px' }}
 				/>
 				<Button
 					variant="contained"
-					sx={{ padding: "0 3rem" }}
+					sx={{ padding: "0 2rem" }}
 					onClick={handleClick}
+					// style={{ marginRight: '10px' }}
 				>
 					add
 				</Button>
